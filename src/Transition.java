@@ -23,7 +23,6 @@ public class Transition {
             if(pre_matching.getInvolvedLink().isLinkNextTo(roadNetwork, cand.getInvolvedLink().getLinkID()) == true){
                 Point linked_point = new Point(0.0, 0.0); //두 링크가 만나는 점
                 linked_point = pre_matching.getInvolvedLink().isLinkNextToPoint(roadNetwork, cand.getInvolvedLink());
-                System.out.println("포인트" + linked_point);
                 routeDistance = coordDistanceofPoints(pre_matching.getPoint(), linked_point) + coordDistanceofPoints(cand.getPoint(), linked_point);
                 //a와 두 링크가 만나는 점까지 거리 + b와 두 링크가 만나는 점까지 거리
             }
@@ -56,13 +55,16 @@ public class Transition {
 
         if(tp_candidate_distance <0){
             tp = -1;
+            candidate.setTp_median(0);
             return tp;
         } //거리가 0보다 작으면 후보 탈락
 
         dt = Math.abs(tp_gps_distance-tp_candidate_distance); //gps와 경로 거리 차이 절대값
+        candidate.setTp_median(dt); //median 값 저장
 
         double beta=0;
 
+        //System.out.println("tp median 확인" +transition_median.get((transition_median.size() / 2)));
         beta = transition_median.get(transition_median.size()/2) / (Math.log(2));
         tp = Math.exp((dt * (-1)) / beta) / beta;
         //tp 구하는 공식
@@ -70,9 +72,29 @@ public class Transition {
         return tp;
     }
 
-    //중앙값 저장
+    //중앙값 저장하는 함수, beta의 median값
     public void Transition_Median(Candidate matching){
-        transition_median.add(matching.getTp());
+
+        if(transition_median.size() == 0)
+            transition_median.add(matching.getEp_median());
+
+        else{
+            for(int i=0; i<transition_median.size(); i++){
+                if(transition_median.get(i) > matching.getEp_median()){
+                    transition_median.add(i, matching.getEp_median());
+                    break;
+                }
+                if(i == transition_median.size()-1){
+                    transition_median.add(matching.getEp_median());
+                    break;
+                }
+            }//위치 찾고 삽입하는 과정, 오름차순으로 나열
+        }
+        /*
+        for(int i=0; i<transition_median.size(); i++){
+            System.out.println("제발tp" + transition_median.get(i));
+        }
+         */
     }
 /*
     public static void Transition_Median(GPSPoint gps_pre, GPSPoint gps, Point matching_pre, Point matching){

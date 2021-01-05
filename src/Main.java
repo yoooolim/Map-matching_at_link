@@ -322,6 +322,12 @@ public class Main {
             }
         }
     */
+
+    public static void calculationEP(Candidate cand, Point center, int timestamp) {
+        cand.setEp(emission.Emission_pro(cand, center, cand.getPoint(), timestamp)); //ep 구하기
+        return;
+    }
+
     public static void calculationTP(Candidate cand, ArrayList<Candidate> matchingPointArrayList, Point center, ArrayList<GPSPoint> gpsPointArrayList, int timestamp,  RoadNetwork roadNetwork) {
         if (timestamp == 1 || timestamp == 2) {
             cand.setTp(0);
@@ -329,10 +335,8 @@ public class Main {
         }
         Candidate matching_pre = matchingPointArrayList.get(timestamp - 2);
         cand.setTp(transition.Transition_pro(gpsPointArrayList.get(timestamp - 2).getPoint(), center, matching_pre, cand, roadNetwork)); //tp 구하기
-    }
+        return;
 
-    public static void calculationEP(Candidate cand, Point center, int timestamp) {
-        cand.setEp(emission.Emission_pro(center, cand.getPoint(), timestamp)); //ep 구하기
     }
 
     public static Candidate calculationEPTP(ArrayList<Candidate> resultCandidate, ArrayList<Candidate> matchingPointArrayList, int timestamp) {
