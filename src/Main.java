@@ -41,9 +41,8 @@ public class Main {
             }
         }
 
-
         /* 여기부터 dijkstra~ */
-        /*
+
         int node_num = roadNetwork.nodeArrayList.size();
         double INF = 1000000.0;
         double[][] a = new double[node_num][node_num]; //전체 거리 그래프
@@ -93,7 +92,7 @@ public class Main {
 
         for(int i=0;i<node_num;i++){
             System.out.println("end ("+i+") : "+d[i]);
-        }*/
+        }
 
         // Adjacency List 구조 바탕으로 출력 test
         /*
