@@ -11,14 +11,10 @@ public class Emission {
     }//유클리드 거리 구하기
 
     //emission probability 구하는 함수
-    public double Emission_pro(GPSPoint gps, Point candidate, int size) {
+    public double Emission_pro(Point gps, Point candidate, int size) {
         double ep_distance = 0;
 
-        Point gpspoint = new Point(0.0, 0.0);
-        gpspoint.setX(gps.getX());
-        gpspoint.setY(gps.getY());
-
-        ep_distance = coordDistanceofPoints(candidate, gpspoint); //후보point와 gps point의 유클리드 직선 거리
+        ep_distance = coordDistanceofPoints(candidate, gps); //후보point와 gps point의 유클리드 직선 거리
 
         if(size==1 || size == 2) {
             return ep_distance;
@@ -28,16 +24,17 @@ public class Emission {
         double sigma=0;
         sigma = (1.4826) * emission_median.get((emission_median.size() / 2));
 
-
         ep = Math.exp(Math.pow(Math.abs(ep_distance) / sigma, 2) * (-0.5)) / (Math.sqrt(2 * Math.PI) * sigma);
 
-        //System.out.println(candidate);
-        //System.out.println("ep : "+ ep);
         return ep;
 
     } //GPS와 후보의 거리 구하기, 중앙값 배열에 저장
 
     //median 저장하는 함수
+    public void Emission_Median(Candidate matching){
+        emission_median.add(matching.getEp());
+    }
+    /*
     public void Emission_Median(GPSPoint gps, Point matching){
         double ep_distance = 0;
 
@@ -63,6 +60,6 @@ public class Emission {
             }//위치 찾고 삽입
         }
     }//중앙값 저장
-
+*/
 
 }
