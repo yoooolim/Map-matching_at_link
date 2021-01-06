@@ -97,6 +97,7 @@ public class Main {
             System.out.println();
         }
 
+        //pleaseㅠㅠㅠㅠ
         // origin route points와 랜덤하게 생성된 GPS points 출력하기
         //유림이가 썼던 코드
         /*Point gpsPoint = new Point(0.0,0.0);
