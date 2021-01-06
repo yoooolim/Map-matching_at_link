@@ -5,6 +5,7 @@ public class Link {
     private int startNodeID; // Link의 Start Node
     private int endNodeID; // Link의 End Node
     private Double weight; // Link의 weight (길이)
+    private double width;
     // Link가 포함하고 있는 node List
     //private ArrayList<Point> involvingPointList = new ArrayList<>();
 
@@ -15,6 +16,7 @@ public class Link {
         this.startNodeID = startNodeID;
         this.endNodeID = endNodeID;
         this.weight = weight;
+        this.width = 0.0;
     }
 
     // String으로 ID 파라미터 받음

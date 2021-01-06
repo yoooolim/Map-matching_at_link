@@ -13,14 +13,10 @@ public class Main {
 
     private static Emission emission = new Emission();
     private static Transition transition = new Transition();
-    //MySwingWorker mySwingWorker;
-    /*그림 그려 주는 tool
-    private static SwingWrapper<XYChart> sw;
-    private static XYChart chart;*/
 
     public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("===== [YSY] Map-matching PilotTest 1-2 =====");
-        int testNo = 2; // 여기만 바꿔주면 됨 (1-세정, 2-유네, 3-유림)
+        int testNo = 3; // 여기만 바꿔주면 됨 (1-세정, 2-유네, 3-유림 4-폭 가중치 추가 데이터)
         FileIO fileIO = new FileIO(testNo);
         // 파일에서 읽어와 도로네트워크 생성
         RoadNetwork roadNetwork = fileIO.generateRoadNetwork();
@@ -193,30 +189,6 @@ public class Main {
         return Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
     }//유클리드 거리 구하기
 
-    /*
-    // 이 아이를 어디 맵매칭클래스 같은거 만들어서 거기에 넣으면 좋지 않을까?하는 생각이어요~
-    public static ArrayList<Point> findRadiusPoint(Point center, Link link, Integer Radius){//Link 안, 반경 내 involving node들만 반환
-        ArrayList<Point> allInvolvingPoint =link.getInvolvingPointList();
-        ArrayList<Point> resultPoint = new ArrayList<>();
-        for(int i=0;i<allInvolvingPoint.size();i++){
-            if(coordDistanceofPoints(center,allInvolvingPoint.get(i))<=Radius)
-                resultPoint.add(allInvolvingPoint.get(i));
-        }
-        return resultPoint;
-    }
-
-    public static ArrayList<Candidate> findRadiusCandidate(Point center, Link link, Integer Radius){
-        ArrayList<Point> allInvolvingPoint = link.getInvolvingPointList();
-        ArrayList <Candidate> resultCandidate= new ArrayList<>();
-        for(int i=0;i<allInvolvingPoint.size();i++){
-            if(coordDistanceofPoints(center,allInvolvingPoint.get(i))<=Radius) {
-                Candidate candidate = new Candidate(allInvolvingPoint.get(i),link);
-                resultCandidate.add(candidate);
-            }
-        }
-        return resultCandidate;
-    }*/
-
     public static ArrayList<Candidate> findRadiusCandidate(ArrayList<GPSPoint> gpsPointArrayList, ArrayList<Candidate> matchingPointArrayList, Point center, Integer Radius, RoadNetwork roadNetwork, int timestamp) {
         ArrayList<Candidate> resultCandidate = new ArrayList<>();
         for (int i = 0; i < roadNetwork.linkArrayList.size(); i++) {
@@ -256,7 +228,7 @@ public class Main {
         return resultCandidate;
     }
 
-    /*
+    /* 유림 tp 구하기
         public static void calculationTP(ArrayList<Candidate> cand,Candidate lastMatch,RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads, int timestamp){
             Link mainLink = lastMatch.getInvolvedLink();
             ArrayList<Link> secondLink = AdjacentLink(mainLink,roadNetwork,heads);
