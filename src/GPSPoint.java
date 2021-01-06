@@ -8,11 +8,17 @@ public class GPSPoint {
         this.timeStamp = timeStamp;
         double gps_x, gps_y;
         Random random = new Random();
-        //10m 안쪽의 오차가 약 95% 가량 나도록 표준편차 4로 설정
-        gps_x = 4*random.nextGaussian()+orgCoordinate.getX();
-        if(gps_x<0) gps_x=orgCoordinate.getX();
-        gps_y = 4*random.nextGaussian()+orgCoordinate.getY();
-        if(gps_y<0) gps_y=orgCoordinate.getY();
+        while(true) {
+            //10m 안쪽의 오차가 약 95% 가량 나도록 표준편차 4로 설정
+            gps_x = 4 * random.nextGaussian() + orgCoordinate.getX();
+            //if(gps_x<0) gps_x=orgCoordinate.getX();
+            gps_y = 4 * random.nextGaussian() + orgCoordinate.getY();
+            //if(gps_y<0) gps_y=orgCoordinate.getY();
+            if (gps_x<0 && gps_y<0)
+                continue;
+            else
+                break;
+        }
         coordinate = new Point (gps_x, gps_y);
     }
 
