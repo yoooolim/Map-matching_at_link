@@ -3,7 +3,8 @@ import javafx.util.Pair;
 /*import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
-import javax.swing.SwingWorker;*/
+import javax.swing.SwingWorker;
+test*/
 
 import java.io.*;
 import java.util.ArrayList;
@@ -97,6 +98,7 @@ public class Main {
             System.out.println();
         }
 
+        //commit test
         // origin route points와 랜덤하게 생성된 GPS points 출력하기
         //유림이가 썼던 코드
         /*Point gpsPoint = new Point(0.0,0.0);
