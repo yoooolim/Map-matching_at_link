@@ -41,61 +41,8 @@ public class Main {
             }
         }
 
-        /* 여기부터 dijkstra~ */
-
-        int node_num = roadNetwork.nodeArrayList.size();
-        double INF = 1000000.0;
-        double[][] a = new double[node_num][node_num]; //전체 거리 그래프
-
-        for(int i=0;i<node_num;i++){
-            for(int j=0;j<node_num;j++){
-                a[i][j]=INF;
-            }
-        }
-
-        for(int i=0;i<node_num;i++){
-            AdjacentNode head = heads.get(i);
-            AdjacentNode ptr = head;
-            while(ptr!=null){
-                double weight = coordDistanceofPoints(head.getNode().getCoordinate(),ptr.getNode().getCoordinate());
-                a[i][ptr.getNode().getNodeID()]=weight;
-                ptr=ptr.getNextNode();
-            }
-        }
-
-        boolean[] v = new boolean[node_num]; //방문한 노드
-        double[] d = new double[node_num]; //거리
-
-        //시작 노드는 여기에서 변경
-        int start = 0;
-        AdjacentNode start_adj_node = heads.get(start);
-        for(int i=0;i<node_num;i++){
-            d[i]=a[start][i];
-        }
-        v[start]=true;
-        for(int i=0;i<node_num-2;i++){
-            int current = 0;
-            double min=INF;
-            for(int j=0;j<node_num;j++){
-                if(d[j]<min&&!v[j]){
-                    min=d[j];
-                    current =j;
-                }
-            }
-            v[current]=true;
-            for(int j=0;j<node_num;j++){
-                if(!v[j]){
-                    if(d[current]+a[current][j]<d[j]) d[j]=d[current]+a[current][j];
-                }
-            }
-        }
-
-        for(int i=0;i<node_num;i++){
-            System.out.println("end ("+i+") : "+d[i]);
-        }
-
         // Adjacency List 구조 바탕으로 출력 test
-        /*
+
         for (AdjacentNode adjacentNode : heads) {
             System.out.print( " [ " + adjacentNode.getNode().getNodeID() + " ] ");
             while (adjacentNode.getNextNode() != null) {
@@ -103,7 +50,16 @@ public class Main {
                 adjacentNode = adjacentNode.getNextNode();
             }
             System.out.println();
-        }*/
+        }
+
+        /* 여기부터 dijkstra~ ShortestRoute -> dijkstra */
+        ShortestRoute dijkstra_route = new ShortestRoute();
+        ArrayList<Integer> SP = dijkstra_route.dijkstra(roadNetwork,heads);
+
+        for(int i=0;i<SP.size();i++){
+            if(i!=SP.size()-1) System.out.print(SP.get(i)+" -> ");
+            else System.out.println(SP.get(i));
+        }
 
         // GPS points와 routePoints를 저장할 ArrayList생성
         ArrayList<GPSPoint> gpsPointArrayList = new ArrayList<>();
