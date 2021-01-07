@@ -36,11 +36,11 @@ public class AdjacentNode {
     public Node getNode() { return node; }
 
 
+
     @Override
     public String toString() {
         return "("+this.node.getNodeID()+","+this.adjacentLink+","+this.nextNode.getNode().getNodeID()+","+this.weight+") | ";
     }
-
     // 윤혜가 추가한 출력서식 (그냥 확인용으로 쓰세용)
     /*
     @Override

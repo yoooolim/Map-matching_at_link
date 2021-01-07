@@ -5,7 +5,7 @@ public class Link {
     private int startNodeID; // Link의 Start Node
     private int endNodeID; // Link의 End Node
     private Double weight; // Link의 weight (길이)
-    private double width;
+    private int width;
     // Link가 포함하고 있는 node List
     //private ArrayList<Point> involvingPointList = new ArrayList<>();
 
@@ -16,7 +16,15 @@ public class Link {
         this.startNodeID = startNodeID;
         this.endNodeID = endNodeID;
         this.weight = weight;
-        this.width = 0.0;
+        this.width = 0;
+    }
+
+    public Link (int linkID, int startNodeID, int endNodeID, Double weight,int width){
+        this.linkID = linkID;
+        this.startNodeID = startNodeID;
+        this.endNodeID = endNodeID;
+        this.weight = weight;
+        this.width = width;
     }
 
     // String으로 ID 파라미터 받음
@@ -25,12 +33,27 @@ public class Link {
         this.startNodeID = Integer.parseInt(startNodeID);
         this.endNodeID = Integer.parseInt(endNodeID);
         this.weight = weight;
+        this.width = 0;
+    }
+    // String으로 ID 파라미터 받음
+    public Link(String linkID, String startNodeID, String endNodeID, Double weight,String width) {
+        this.linkID = Integer.parseInt(linkID);
+        this.startNodeID = Integer.parseInt(startNodeID);
+        this.endNodeID = Integer.parseInt(endNodeID);
+        this.weight = weight;
+        this.width = Integer.parseInt(width);
     }
 
     public String toString() {
         return "[" + linkID + "]\t" + "(" + startNodeID +", "
                 + endNodeID+")" + "\t" + "weight: " + weight;
     }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public void setWidth(int width){this.width=width;}
 
     public int getLinkID() {
         return linkID;
@@ -63,15 +86,6 @@ public class Link {
     public void setWeight(Double weight) {
         this.weight = weight;
     }
-
-    /*public ArrayList<Point> getInvolvingPointList() {
-        return involvingPointList;
-    }
-
-    public void setInvolvingPointList(ArrayList<Point> involvingPointList) {
-        this.involvingPointList = involvingPointList;
-    }*/
-    //////////////////////////////////////
 
     //  [VERIFIED] 이 링크의 startNode(이 아이)와 이웃하는(이 아이를 startNode혹은 endNode로 가지는) links 출력
     public ArrayList<Link> linksNeighborOnStartNode (RoadNetwork roadNetwork) {

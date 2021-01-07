@@ -53,7 +53,7 @@ public class FileIO {
             Double weight = (double) Math.round(Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2)));
 
             // link 생성
-            Link link = new Link(lineArray[0], lineArray[1], lineArray[2], weight);
+            Link link = new Link(lineArray[0], lineArray[1], lineArray[2], weight, lineArray[3]);
 
             /*
             //involving points 구하기

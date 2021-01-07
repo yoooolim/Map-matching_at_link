@@ -16,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("===== [YSY] Map-matching PilotTest 1-2 =====");
-        int testNo = 3; // 여기만 바꿔주면 됨 (1-세정, 2-유네, 3-유림 4-폭 가중치 추가 데이터)
+        int testNo = 4; // 여기만 바꿔주면 됨 (1-세정, 2-유네, 3-유림 4-폭 가중치 추가 데이터)
         FileIO fileIO = new FileIO(testNo);
         // 파일에서 읽어와 도로네트워크 생성
         RoadNetwork roadNetwork = fileIO.generateRoadNetwork();
@@ -49,12 +49,25 @@ public class Main {
         }
 
         /* 여기부터 dijkstra~ ShortestRoute -> dijkstra */
-        ShortestRoute dijkstra_route = new ShortestRoute();
-        ArrayList<Integer> SP = dijkstra_route.dijkstra(roadNetwork,heads);
+        ShortestRoute shortestPath = new ShortestRoute();
+        //시작, 끝 노드 ID!
+        int start = 0;
+        int end = 34;
 
-        for(int i=0;i<SP.size();i++){
-            if(i!=SP.size()-1) System.out.print(SP.get(i)+" -> ");
-            else System.out.println(SP.get(i));
+        /* dijkstra */
+        ArrayList<Integer> dijkstra_route = shortestPath.dijkstra(roadNetwork,heads,start,end);
+        System.out.println();
+        for(int i=0;i<dijkstra_route.size();i++){
+            if(i!=dijkstra_route.size()-1) System.out.print(dijkstra_route.get(i)+" -> ");
+            else System.out.println(dijkstra_route.get(i));
+        }
+
+        /* A_start */
+        ArrayList<Integer> aStart_route = shortestPath.Astar(roadNetwork,heads,start,end);
+        System.out.println();
+        for(int i=0;i<aStart_route.size();i++){
+            if(i!=aStart_route.size()-1) System.out.print(aStart_route.get(i)+" -> ");
+            else System.out.println(aStart_route.get(i));
         }
 
         // GPS points와 routePoints를 저장할 ArrayList생성

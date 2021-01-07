@@ -4,11 +4,8 @@ public class ShortestRoute {
 
     public ShortestRoute(){;}
 
-    public ArrayList<Integer> dijkstra(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads){
+    public ArrayList<Integer> dijkstra(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start,int end){
         ArrayList<Integer> route = new ArrayList<>();
-        //시작 노드는 여기에서 변경
-        int start = 0;
-        int end = 34;
 
         int node_num = roadNetwork.nodeArrayList.size();
         double INF = 1000000.0;
@@ -78,15 +75,54 @@ public class ShortestRoute {
             findroute = path[findroute];
         }
         trace.add(start);
+        /*
         for(int i=0;i<trace.size();i++){
             System.out.println(i+" : "+trace.get(i));
         }
-        System.out.println();
+        System.out.println();*/
         for(int i=trace.size()-1;i>=0;i--){
-            System.out.print(i+" : ");
-            System.out.println(trace.get(i));
+            //System.out.print(i+" : ");
+            //System.out.println(trace.get(i));
             route.add(trace.get(i));
         }
+        return route;
+    }
+
+    public ArrayList<Integer> Astar(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start, int end){
+        ArrayList<Integer> route = new ArrayList<>();
+        Node endNode = heads.get(end).getNode();
+
+        int now = start;
+        double routeLength = 0.0;
+
+        while(now!=end){
+            route.add(now);
+            AdjacentNode head = heads.get(now);
+            head = head.getNextNode();
+            double min = 99999999;
+            int nextID = 0;
+            double addLength = 0.0;
+            while(head!=null){
+                double G = routeLength + Main.coordDistanceofPoints(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
+                double H = Main.coordDistanceofPoints(roadNetwork.getNode(end).getCoordinate(), head.getNode().getCoordinate());
+                H = H + 20/ (head.getLink().getWidth());
+                /*가중치가 클 수록 큰 길 -> 가중치가 크면 좋음
+                 && h가 작을 수록 유리함
+                 가중 치가 클 수록 h가 작게 되도록 설정 ==> 거리에 나누기~ (x) + 비중이 너무 커져서 도착지로 도달 x
+                                                  ==> 20/가중치 더하기!! + 1/가중치 는 별 효력이 없음
+                 */
+                double F = G + H;
+                if(min > F) {
+                    min = F;
+                    nextID=head.getNode().getNodeID();
+                    addLength = Main.coordDistanceofPoints(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
+                }
+                head=head.getNextNode();
+            }
+            routeLength+=addLength;
+            now = nextID;
+        }
+        route.add(end);
         return route;
     }
 }
