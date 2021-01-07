@@ -51,23 +51,34 @@ public class Main {
         /* 여기부터 dijkstra~ ShortestRoute -> dijkstra */
         ShortestRoute shortestPath = new ShortestRoute();
         //시작, 끝 노드 ID!
-        int start = 0;
+        int start = 1;
         int end = 34;
 
         /* dijkstra */
         ArrayList<Integer> dijkstra_route = shortestPath.dijkstra(roadNetwork,heads,start,end);
         System.out.println();
+        System.out.println(" /* 다익스트라 */ ");
         for(int i=0;i<dijkstra_route.size();i++){
             if(i!=dijkstra_route.size()-1) System.out.print(dijkstra_route.get(i)+" -> ");
             else System.out.println(dijkstra_route.get(i));
         }
 
         /* A_start */
-        ArrayList<Integer> aStart_route = shortestPath.Astar(roadNetwork,heads,start,end);
+        ArrayList<Integer> aStart_route = shortestPath.astar(roadNetwork,heads,start,end);
         System.out.println();
+        System.out.println(" /* 에이스타 */ ");
         for(int i=0;i<aStart_route.size();i++){
             if(i!=aStart_route.size()-1) System.out.print(aStart_route.get(i)+" -> ");
             else System.out.println(aStart_route.get(i));
+        }
+
+        /* longest leg first! (llf) */
+        ArrayList<Integer> llf_route = shortestPath.longest_leg_first(roadNetwork,heads,start,end);
+        System.out.println();
+        System.out.println(" /* 처음 최대 길이 선택 다익스트라 */ ");
+        for(int i=0;i<llf_route.size();i++){
+            if(i!=llf_route.size()-1) System.out.print(llf_route.get(i)+" -> ");
+            else System.out.println(llf_route.get(i));
         }
 
         // GPS points와 routePoints를 저장할 ArrayList생성

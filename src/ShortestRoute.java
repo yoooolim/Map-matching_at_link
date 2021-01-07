@@ -20,6 +20,7 @@ public class ShortestRoute {
                 a[i][j]=INF;
             }
         }
+        //path[start]=-2;
         AdjacentNode head = heads.get(0);
         while(head.getNextNode()!=null){
             head = head.getNextNode();
@@ -88,7 +89,7 @@ public class ShortestRoute {
         return route;
     }
 
-    public ArrayList<Integer> Astar(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start, int end){
+    public ArrayList<Integer> astar(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start, int end){
         ArrayList<Integer> route = new ArrayList<>();
         Node endNode = heads.get(end).getNode();
 
@@ -123,6 +124,28 @@ public class ShortestRoute {
             now = nextID;
         }
         route.add(end);
+        return route;
+    }
+
+    public ArrayList<Integer> longest_leg_first(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start, int end){
+        ArrayList<Integer> route = new ArrayList<>();
+        int second = 0;
+        double max = 0.0;
+        double startToend = Main.coordDistanceofPoints(heads.get(start).getNode().getCoordinate(),heads.get(end).getNode().getCoordinate());
+        double keyToend = startToend;
+        AdjacentNode head = heads.get(start);
+        while(head.getNextNode()!=null){
+            head = head.getNextNode();
+            double headToend = Main.coordDistanceofPoints(head.getNode().getCoordinate(),heads.get(end).getNode().getCoordinate());
+            // back하지 않으면서 가장 긴 link ||혹은~|| 길이가 같다면 end와 더 가까운 쪽
+            if((max < head.getLink().getWeight() && headToend<startToend)||max==head.getLink().getWeight()&&keyToend>headToend){
+                max = head.getLink().getWeight();
+                second = head.getNode().getNodeID();
+                keyToend = headToend;
+            }
+        }
+        route.add(start);
+        route.addAll(dijkstra(roadNetwork,heads,second,end));
         return route;
     }
 }
