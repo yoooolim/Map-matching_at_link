@@ -143,6 +143,12 @@ public class Main {
             /////////matching print/////////////
             System.out.println("매칭완료 " + matchingPointArrayList.get(timestamp-1));
 
+            emission.Emission_Median(matchingPointArrayList.get(timestamp-1));
+            if(timestamp > 1){
+                transition.Transition_Median(matchingPointArrayList.get(timestamp-1));
+            }
+            //median값 저장
+
             System.out.println();
         }
 
@@ -355,10 +361,6 @@ public class Main {
                 }
             }
             matchingPointArrayList.add(matchingCandidate);
-            emission.Emission_Median(matchingCandidate);
-            if(timestamp > 1){
-                transition.Transition_Median(matchingCandidate);
-            }
 
             return matchingCandidate;
         }
@@ -378,8 +380,6 @@ public class Main {
         }
         matchingPointArrayList.add(matchingCandidate);
 
-        emission.Emission_Median(matchingCandidate);
-        transition.Transition_Median(matchingCandidate);
         return matchingCandidate;
 
     }
