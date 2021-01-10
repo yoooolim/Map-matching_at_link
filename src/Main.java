@@ -151,12 +151,12 @@ public class Main {
             }
             //median값 저장
         }
-        ///////////// general VITERBI /////////////
+        ///////////// FSW VITERBI /////////////
         // window size 입력받기
-        System.out.print("Fixed Sliding Window Viterbi. Window size: 5\n"); // 5지우기
-        //Scanner scanner = new Scanner(System.in);
-        //int wSize = scanner.nextInt(); // window size;
-        int wSize = 5;//w지우기
+        System.out.print("Fixed Sliding Window Viterbi. Window size: \n");
+        Scanner scanner = new Scanner(System.in);
+        int wSize = scanner.nextInt(); // window size;
+
         ArrayList<Candidate[]> subpaths = new ArrayList<>();
         // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
         // t는 timestamp를 의미
@@ -247,12 +247,11 @@ public class Main {
         System.out.println("[Origin]\t->\t[GPS]\t->\t[Matched]");
         System.out.println("HERE!!:" + matched.size());
         for(int i = 0; i< matched.size() ; i++){
-            /*System.out.println(i +" [" + routePointArrayList.get(i+wSize-2) + "] -> ["
+            System.out.println(i +" [" + routePointArrayList.get(i+wSize-2) + "] -> ["
                     + gpsPointArrayList.get(i+wSize-2).getPoint() + "] -> ["
                     + matched.get(i).getPoint() + ", id: "
-                    + matched.get(i).getInvolvedLink().getLinkID()+ "]");*/
-            //System.out.println(routePointArrayList.get(i+wSize-2) +" "+ matchingCandiArrayList.get(i).getPoint().getX()
-                    //+" "+ routePointArrayList.get(i+wSize-2).getY() +" "+matchingCandiArrayList.get(i).getPoint().getY());
+                    + matched.get(i).getInvolvedLink().getLinkID()+ "]");
+
             if (i >=0 && i <= 19 && matched.get(i).getInvolvedLink().getLinkID() == 0){
                 success_sum ++;
             } else if (i >= 20 && i <=40 && matched.get(i).getInvolvedLink().getLinkID() == 3) {
