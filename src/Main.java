@@ -181,22 +181,17 @@ public class Main {
         }
 
 
-        ///////////// FSW VITERBI /////////////
-        // window size 입력받기
-        System.out.print("Fixed Sliding Window Viterbi. Window size: \n");
-        //Scanner scanner = new Scanner(System.in);
-        int wSize = 15; // window size;
-
+        ///////////// general VITERBI /////////////
         ArrayList<Candidate[]> subpaths = new ArrayList<>();
         // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
         // t는 timestamp를 의미
-        for (int t = wSize-1; t < arrOfCandidates.size(); t++) {
+        for (int t = 1; t < arrOfCandidates.size(); t++) {
             Candidate matching;
             double maximum_prob = 0;
-            Candidate subpath[] = new Candidate [wSize-1]; // path의 길이를 t로 설정
+            //Candidate subpath[] = new Candidate [t]; // path의 길이를 t로 설정
 
             // 현재 candidates와 다음 candidates로 가는 t.p와 e.p곱 중 최대 값을 가지는 curr와 그 index를 maximum_tpep[현재]에 저장
-            for (int i = t - wSize + 1; i < t; i++) { // i moves in window
+            for (int i = 0; i < t; i++) { // i moves in window
                 ArrayList<Candidate> curr_candidates = arrOfCandidates.get(i);
                 ArrayList<Candidate> next_candidates = arrOfCandidates.get(i+1);
                 //System.out.println("☆origin point:" + routePointArrayList.get(i));
@@ -210,13 +205,13 @@ public class Main {
                     for (Candidate cc : curr_candidates) {
                         //calculationTP(nc, matched, gpsPointArrayList.get(t).getPoint(), gpsPointArrayList, t, roadNetwork);
                         double prob = tp_matrix[cc.getInvolvedLink().getLinkID()][nc.getInvolvedLink().getLinkID()]
-                                * nc.getEp();
+                                * nc.getEp(); /*cc->nc로의 tp구해야하고 */
 
                         //System.out.println("    cc: "+cc.getPoint()+"/ ep: "+cc.getEp()+"/ prob: "+prob);
                         if (i == 0) { // window내 window의 시작 부분
-                            if(maximum_prob < prob * cc.getEp()) { // 최대의 acc_prob를 갱신
+                            if(maximum_prob < prob * cc.getEp()) { // 최대의 acc_prob를 갱신하며 이전전
                                 maximum_prob = prob * cc.getEp();// window의 시작부분이므로 현재의 ep * 다음의 ep * 현재->다음의tp를 Acc_prob에 축적한다
-                                nc.setPrev_index(curr_candidates.indexOf(cc));
+                                //nc.setPrev_index(curr_candidates.indexOf(cc));
                                 nc.setAcc_prob(maximum_prob);
                                 //System.out.println("    MAX!");
                             }
@@ -224,7 +219,7 @@ public class Main {
                         else { // window 내 그 외의 부분
                             if(maximum_prob < prob * cc.getAcc_prob()) {
                                 maximum_prob = prob * cc.getAcc_prob(); // 현재의 acc_prob * 다음의 ep * 현재->다음의 tp를 Acc_prob에 축적한다
-                                nc.setPrev_index(curr_candidates.indexOf(cc));
+                                //nc.setPrev_index(curr_candidates.indexOf(cc));
                                 nc.setAcc_prob(maximum_prob);
                                 //System.out.println("    MAX!");
                             }
@@ -242,46 +237,22 @@ public class Main {
                     max_last_candi = candidate;
                 }
             }
-            // max_last_candi를 시작으로 back tracing하여 subpath구하기
-            Candidate tempCandi = arrOfCandidates.get(t-1).get(max_last_candi.getPrev_index());
-            subpath[wSize-2] = tempCandi;
-            int _t = t-2;
-            for (int j = wSize-3; j>=0; j--) {
-                tempCandi = arrOfCandidates.get(_t--).get(tempCandi.getPrev_index());
-                subpath[j] = tempCandi;
-            }
 
-            // 생성된 subpath를 subpaths에 추가가
-           subpaths.add(subpath);
-
-            //subpath의 끝 점 매칭
-            matching = subpath[subpath.length-1];
-            matched.add(matching);
+            // 매칭된 Candidate
+            Candidate matchedCandi = arrOfCandidates.get(t-1).get(max_last_candi.getPrev_index());
+            matched.add(matchedCandi);
 
         }
 
-        // subpath 출력
-       int t = wSize-2;
-        for (Candidate[] subpath : subpaths) {
-            System.out.print(t + "] ");
-            for (int  i=0;i<subpath.length;i++) {
-                System.out.print("["+subpath[i].getInvolvedLink().getLinkID() + "]");
-                if (i!=subpath.length-1)
-                    System.out.print(" ㅡ ");
-            }
-            System.out.println(); t++;
-        }
-
-        // origin->생성 gps->matched 출력*
+        // origin->생성 gps->matched 출력
         double success_sum= 0;
         System.out.println("[Origin]\t->\t[GPS]\t->\t[Matched]");
         System.out.println("HERE!!:" + matched.size());
         for(int i = 0; i< matched.size() ; i++){
-            System.out.println(i +" [" + routePointArrayList.get(i+wSize-2) + "] -> ["
-                    + gpsPointArrayList.get(i+wSize-2).getPoint() + "] -> ["
+            System.out.println("[" + routePointArrayList.get(i+1) + "] -> ["
+                    + gpsPointArrayList.get(i+1).getPoint() + "] -> ["
                     + matched.get(i).getPoint() + ", id: "
                     + matched.get(i).getInvolvedLink().getLinkID()+ "]");
-
             if (i >=0 && i <= 19 && matched.get(i).getInvolvedLink().getLinkID() == 0){
                 success_sum ++;
             } else if (i >= 20 && i <=40 && matched.get(i).getInvolvedLink().getLinkID() == 3) {
@@ -299,9 +270,8 @@ public class Main {
             } else if (i >= 146 && i <= 165 && matched.get(i).getInvolvedLink().getLinkID() == 58) {
                 success_sum ++;
             }
-
         }
-        System.out.println("Success prob = "+(100*(success_sum/(double)matchingCandiArrayList.size()))/* + "%"*/);
+        System.out.println("Success prob = "+(100*(success_sum/(double)matchingCandiArrayList.size())) + "%");
         System.out.println(" Total: "+ matchingCandiArrayList.size() +"\n Succeed: "+success_sum+ "\n Failed: "+(matchingCandiArrayList.size()-success_sum));
 
     }
