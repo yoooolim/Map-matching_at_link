@@ -14,11 +14,12 @@ public class GPSPoint {
             //if(gps_x<0) gps_x=orgCoordinate.getX();
             gps_y = 4 * random.nextGaussian() + orgCoordinate.getY();
             //if(gps_y<0) gps_y=orgCoordinate.getY();
-            if (gps_x<0 && gps_y<0)
+            if (gps_x<0 && gps_y<0 || gps_x>100 && gps_y>100)
                 continue;
             else
                 break;
         }
+
         coordinate = new Point (gps_x, gps_y);
     }
 

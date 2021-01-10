@@ -6,6 +6,25 @@ public class Candidate {
     private double tpep;
     private double ep_median;
     private double tp_median;
+    private double acc_prob;// accumulated probability (이전 최대 edge와 해당 node의 ep*tp를 곱함)
+
+    public int getPrev_index() {
+        return prev_index;
+    }
+
+    public void setPrev_index(int prev_index) {
+        this.prev_index = prev_index;
+    }
+
+    private int prev_index;
+
+    public double getAcc_prob() {
+        return acc_prob;
+    }
+
+    public void setAcc_prob(double acc_prob) {
+        this.acc_prob = acc_prob;
+    }
 
     public Candidate(){
         this.point = null;
