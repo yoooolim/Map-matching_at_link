@@ -214,7 +214,7 @@ public class Main {
         }
 
         // origin->생성 gps->matched 출력
-        /*double success_sum= 0;*/
+        double success_sum= 0;
         System.out.println("[Origin]\t->\t[GPS]\t->\t[Matched]");
         System.out.println("HERE!!:" + matched.size());
         for(int i = 0; i< matched.size() ; i++){
@@ -222,16 +222,27 @@ public class Main {
                     + gpsPointArrayList.get(i+1).getPoint() + "] -> ["
                     + matched.get(i).getPoint() + ", id: "
                     + matched.get(i).getInvolvedLink().getLinkID()+ "]");
-            //System.out.println(routePointArrayList.get(i+wSize-2) +" "+ matchingCandiArrayList.get(i).getPoint().getX()
-                    //+" "+ routePointArrayList.get(i+wSize-2).getY() +" "+matchingCandiArrayList.get(i).getPoint().getY());
-            /*if (routePointArrayList.get(i+wSize-2).) {
+            if (i >=0 && i <= 19 && matched.get(i).getInvolvedLink().getLinkID() == 0){
                 success_sum ++;
-                System.out.println(i);
-            }*/
+            } else if (i >= 20 && i <=40 && matched.get(i).getInvolvedLink().getLinkID() == 3) {
+                success_sum ++;
+            } else if (i >= 41 && i <= 61 && matched.get(i).getInvolvedLink().getLinkID() == 13) {
+                success_sum ++;
+            } else if (i >= 62 && i <= 82 && matched.get(i).getInvolvedLink().getLinkID() == 25) {
+                success_sum ++;
+            } else if (i >= 83 && i <= 103 && matched.get(i).getInvolvedLink().getLinkID() == 46) {
+                success_sum ++;
+            } else if (i >= 104 && i <= 124 && matched.get(i).getInvolvedLink().getLinkID() == 48) {
+                success_sum ++;
+            } else if (i >= 125 && i <= 145 && matched.get(i).getInvolvedLink().getLinkID() == 52) {
+                success_sum ++;
+            } else if (i >= 146 && i <= 165 && matched.get(i).getInvolvedLink().getLinkID() == 58) {
+                success_sum ++;
+            }
         }
-        /*System.out.println("Success prob = "+(100*(success_sum/(double)matchingCandiArrayList.size())) + "%");
+        System.out.println("Success prob = "+(100*(success_sum/(double)matchingCandiArrayList.size())) + "%");
         System.out.println(" Total: "+ matchingCandiArrayList.size() +"\n Succeed: "+success_sum+ "\n Failed: "+(matchingCandiArrayList.size()-success_sum));
-*/
+
     }
 
     public static Double coordDistanceofPoints(Point a, Point b) {
