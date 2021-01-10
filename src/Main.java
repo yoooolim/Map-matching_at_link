@@ -180,7 +180,7 @@ public class Main {
                         if (i == 0) { // window내 window의 시작 부분
                             if(maximum_prob < prob * cc.getEp()) { // 최대의 acc_prob를 갱신하며 이전전
                                 maximum_prob = prob * cc.getEp();// window의 시작부분이므로 현재의 ep * 다음의 ep * 현재->다음의tp를 Acc_prob에 축적한다
-                                nc.setPrev_index(curr_candidates.indexOf(cc));
+                                //nc.setPrev_index(curr_candidates.indexOf(cc));
                                 nc.setAcc_prob(maximum_prob);
                                 //System.out.println("    MAX!");
                             }
@@ -188,7 +188,7 @@ public class Main {
                         else { // window 내 그 외의 부분
                             if(maximum_prob < prob * cc.getAcc_prob()) {
                                 maximum_prob = prob * cc.getAcc_prob(); // 현재의 acc_prob * 다음의 ep * 현재->다음의 tp를 Acc_prob에 축적한다
-                                nc.setPrev_index(curr_candidates.indexOf(cc));
+                                //nc.setPrev_index(curr_candidates.indexOf(cc));
                                 nc.setAcc_prob(maximum_prob);
                                 //System.out.println("    MAX!");
                             }
