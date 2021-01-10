@@ -3,9 +3,6 @@ import java.util.ArrayList;
 public class ShortestRoute {
 
     public ShortestRoute(){;}
-    //shortestRoute commit
-    //second commit
-    //third commit
 
     public ArrayList<Integer> dijkstra(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start,int end){
         ArrayList<Integer> route = new ArrayList<>();
