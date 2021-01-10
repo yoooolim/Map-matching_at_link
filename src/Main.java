@@ -106,6 +106,34 @@ public class Main {
             System.out.println();
         }*/
 
+        ///////////// Transition probability 구하기 ////////////////
+        int n = roadNetwork.getLinksSize();
+        double [][] tp_matrix = new double[n][n];
+        for (int i = 0; i < n;i++) {
+            // 여기에서 link[i]가 몇개의 link와 맞닿아있는지 int 변수 선언해서 저장
+            int m = roadNetwork.getLink(i).nextLinksNum(roadNetwork);
+            // 알고리즘대로 tp 지정
+            for (int j = 0; j < n; j++) {
+                if (i == j) tp_matrix[i][j] = 0.5;
+                else if (roadNetwork.getLink(i).isLinkNextTo(roadNetwork, j))
+                    tp_matrix[i][j] = 1.0/m;
+                else tp_matrix[i][j] = 0.0;
+            }
+        }
+
+        // i - j - k로 맞닿아있을떄 tp[i][k] = tp[i][j] * tp[j][k]
+        for (int i = 0; i < n;i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k< n; k++) {
+                    if (i == k) continue;
+                    if (roadNetwork.getLink(i).isLinkNextTo(roadNetwork, k)) continue;
+                    if (roadNetwork.getLink(i).isLinkNextTo(roadNetwork, j) && roadNetwork.getLink(j).isLinkNextTo(roadNetwork, k))
+                        tp_matrix[i][k] = tp_matrix[i][j] * tp_matrix[j][k];
+                }
+            }
+        }
+        /////////////////////////////////////////////////////////////////
+
         // GPS points와 routePoints를 저장할 ArrayList생성
         ArrayList<GPSPoint> gpsPointArrayList = new ArrayList<>();
         ArrayList<Point> routePointArrayList; // 실제 경로의 points!
@@ -151,11 +179,13 @@ public class Main {
             }
             //median값 저장
         }
+
+
         ///////////// FSW VITERBI /////////////
         // window size 입력받기
         System.out.print("Fixed Sliding Window Viterbi. Window size: \n");
-        Scanner scanner = new Scanner(System.in);
-        int wSize = scanner.nextInt(); // window size;
+        //Scanner scanner = new Scanner(System.in);
+        int wSize = 15; // window size;
 
         ArrayList<Candidate[]> subpaths = new ArrayList<>();
         // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
@@ -179,12 +209,12 @@ public class Main {
                     // 현재 candidate를 하나씩 순회하며
                     for (Candidate cc : curr_candidates) {
                         //calculationTP(nc, matched, gpsPointArrayList.get(t).getPoint(), gpsPointArrayList, t, roadNetwork);
-                        double prob = transition.Transition_pro(gpsPointArrayList.get(t-1).getPoint(), gpsPointArrayList.get(t).getPoint(), cc, nc, roadNetwork)
-                                * nc.getEp(); /*cc->nc로의 tp구해야하고 */
+                        double prob = tp_matrix[cc.getInvolvedLink().getLinkID()][nc.getInvolvedLink().getLinkID()]
+                                * nc.getEp();
 
                         //System.out.println("    cc: "+cc.getPoint()+"/ ep: "+cc.getEp()+"/ prob: "+prob);
                         if (i == 0) { // window내 window의 시작 부분
-                            if(maximum_prob < prob * cc.getEp()) { // 최대의 acc_prob를 갱신하며 이전전
+                            if(maximum_prob < prob * cc.getEp()) { // 최대의 acc_prob를 갱신
                                 maximum_prob = prob * cc.getEp();// window의 시작부분이므로 현재의 ep * 다음의 ep * 현재->다음의tp를 Acc_prob에 축적한다
                                 nc.setPrev_index(curr_candidates.indexOf(cc));
                                 nc.setAcc_prob(maximum_prob);
@@ -230,7 +260,7 @@ public class Main {
 
         }
 
-        /*// subpath 출력
+        // subpath 출력
        int t = wSize-2;
         for (Candidate[] subpath : subpaths) {
             System.out.print(t + "] ");
@@ -240,7 +270,7 @@ public class Main {
                     System.out.print(" ㅡ ");
             }
             System.out.println(); t++;
-        }*/
+        }
 
         // origin->생성 gps->matched 출력*
         double success_sum= 0;
