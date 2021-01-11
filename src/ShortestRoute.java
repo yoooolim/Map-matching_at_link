@@ -148,4 +148,9 @@ public class ShortestRoute {
         route.addAll(dijkstra(roadNetwork,heads,second,end));
         return route;
     }
+
+    public ArrayList<Integer> fewest_turn(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start, int end){
+        ArrayList<Integer> route = new ArrayList<>();
+        return route;
+    }
 }

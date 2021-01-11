@@ -53,7 +53,7 @@ public class Main {
         //시작, 끝 노드 ID!
         int start = 0;
         int end = 34;
-        long startT=0, endT=0;
+        long startT=0, endT=0; //시간 계산 위해서 -> nano time으로 왜 dijk이 더 오래 걸리는지 파악할 것
 
         /* dijkstra */
         startT = System.nanoTime();//timer start
@@ -93,6 +93,8 @@ public class Main {
             if(i%3==2) System.out.println();
         }
         System.out.println("소요 시간 : " + (endT - startT) + "n 초");
+
+        /* fewest turn */
 
         // GPS points와 routePoints를 저장할 ArrayList생성
         ArrayList<GPSPoint> gpsPointArrayList = new ArrayList<>();
