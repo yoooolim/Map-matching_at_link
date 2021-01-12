@@ -19,7 +19,7 @@ public class ShortestRoute {
                 a[i][j]=INF;
             }
         }
-        AdjacentNode head = heads.get(0);
+        AdjacentNode head = heads.get(start);
         while(head.getNextNode()!=null){
             head = head.getNextNode();
             path[head.getNode().getNodeID()]=start;
