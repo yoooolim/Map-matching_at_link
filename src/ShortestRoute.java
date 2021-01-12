@@ -13,14 +13,12 @@ public class ShortestRoute {
         int path[] = new int[node_num];
 
         /* 전체 거리 그래프 초기화 */
-
         for(int i=0;i<node_num;i++){ // 전체 거리 그래프 전체 INF로 초기화
             path[i]=-1;
             for(int j=0;j<node_num;j++){
                 a[i][j]=INF;
             }
         }
-        //path[start]=-2;
         AdjacentNode head = heads.get(0);
         while(head.getNextNode()!=null){
             head = head.getNextNode();
@@ -81,7 +79,7 @@ public class ShortestRoute {
         }
         return route;
     }
-    //dijkstra의 문제 : 12 -> 25 -> 26의 경우에 path[25]가 12가 아닌 -1의 값을 가짐
+    //dijkstra의 문제 : 12 -> 25 -> 26의 경우에 path[25]가 12가 아닌 -1의 값을 가짐 why..
 
     public ArrayList<Integer> astar(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start, int end){
         ArrayList<Integer> route = new ArrayList<>();
