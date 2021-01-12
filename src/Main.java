@@ -51,7 +51,7 @@ public class Main {
         /* 여기부터 dijkstra~ ShortestRoute -> dijkstra */
         ShortestRoute shortestPath = new ShortestRoute();
         //시작, 끝 노드 ID!
-        int start = 0;
+        int start = 12;
         int end = 34;
         long startT=0, endT=0; //시간 계산 위해서 -> nano time으로 왜 dijk이 더 오래 걸리는지 파악할 것
 
