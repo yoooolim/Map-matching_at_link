@@ -152,6 +152,7 @@ public class ShortestRoute {
 
     public ArrayList<Integer> fewest_turn(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start, int end){
         ArrayList<Integer> route = new ArrayList<>();
+        AdjacentNode head = heads.get(0);
         return route;
     }
 }
