@@ -76,14 +76,7 @@ public class ShortestRoute {
             findroute = path[findroute];
         }
         trace.add(start);
-        /*
-        for(int i=0;i<trace.size();i++){
-            System.out.println(i+" : "+trace.get(i));
-        }
-        System.out.println();*/
         for(int i=trace.size()-1;i>=0;i--){
-            //System.out.print(i+" : ");
-            //System.out.println(trace.get(i));
             route.add(trace.get(i));
         }
         return route;
