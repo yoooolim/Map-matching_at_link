@@ -4,6 +4,15 @@ public class ShortestRoute {
 
     public ShortestRoute(){;}
 
+    public static double dijkstra_length(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start,int end){
+        double length = 0;
+        return length;
+    }
+/*
+    public static int min(double A, double B){
+        if(a)
+    }*/
+
     public ArrayList<Integer> dijkstra(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start,int end){
         ArrayList<Integer> route = new ArrayList<>();
 
@@ -38,8 +47,6 @@ public class ShortestRoute {
 
         boolean[] v = new boolean[node_num]; //방문한 노드
         double[] d = new double[node_num]; //거리
-
-        AdjacentNode start_adj_node = heads.get(start);
 
         for(int i=0;i<node_num;i++){ //시작점이 start일 때 거리 그래프 초기화
             d[i]=a[start][i];
@@ -140,11 +147,27 @@ public class ShortestRoute {
         route.addAll(dijkstra(roadNetwork,heads,second,end));
         return route;
     }
-    //for commit line
 
     public ArrayList<Integer> fewest_turn(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start, int end){
         ArrayList<Integer> route = new ArrayList<>();
-        AdjacentNode head = heads.get(0);
+        AdjacentNode head = heads.get(start);
+        AdjacentNode prev = heads.get(start);
+        while(head.getNode().getNodeID()!=end){
+            ArrayList<AdjacentNode> temp = new ArrayList<>();
+            head=head.getNextNode();
+            double inclinationOrigin = (prev.getNode().getCoordinate().getY()-head.getNode().getCoordinate().getY())/
+                    (prev.getNode().getCoordinate().getX()-head.getNode().getCoordinate().getX());
+            while(true){
+                double inclinationNow = (prev.getNode().getCoordinate().getY()-head.getNode().getCoordinate().getY())/
+                        (prev.getNode().getCoordinate().getX()-head.getNode().getCoordinate().getX());
+                if(inclinationOrigin==inclinationNow) head = heads.get(head.getNode().getNodeID());
+                if(head.getNextNode()==null){
+                    temp.add(head);
+                    break;
+                }
+                head=head.getNextNode();
+            }
+        }
         return route;
     }
 }

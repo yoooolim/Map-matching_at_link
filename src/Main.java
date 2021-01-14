@@ -54,45 +54,63 @@ public class Main {
         int start = 12;
         int end = 34;
         long startT=0, endT=0; //시간 계산 위해서 -> nano time으로 왜 dijk이 더 오래 걸리는지 파악할 것
+        long sum =0;
 
         /* dijkstra */
-        startT = System.nanoTime();//timer start
-        ArrayList<Integer> dijkstra_route = shortestPath.dijkstra(roadNetwork,heads,start,end);
-        endT = System.nanoTime();//timer end
-        System.out.println();
-        System.out.println(" /* 다익스트라 */ ");
-        for(int i=0;i<dijkstra_route.size();i++){
-            if(i!=dijkstra_route.size()-1) System.out.print("ID: "+dijkstra_route.get(i)+" / 좌표: ("+roadNetwork.getNode(dijkstra_route.get(i)).getCoordinate()+") -> ");
-            else System.out.println("ID: "+dijkstra_route.get(i)+"/좌표: ("+roadNetwork.getNode(dijkstra_route.get(i)).getCoordinate()+")");
-            if(i%3==2) System.out.println();
+        for(int n=0;n<100;n++) {
+            startT = System.nanoTime();//timer start
+            ArrayList<Integer> dijkstra_route = shortestPath.dijkstra(roadNetwork, heads, start, end);
+            endT = System.nanoTime();//timer end
+            //System.out.println();
+            //System.out.println(" /* 다익스트라 */ ");
+            /*for (int i = 0; i < dijkstra_route.size(); i++) {
+                if (i != dijkstra_route.size() - 1)
+                    System.out.print("ID: " + dijkstra_route.get(i) + " / 좌표: (" + roadNetwork.getNode(dijkstra_route.get(i)).getCoordinate() + ") -> ");
+                else
+                    System.out.println("ID: " + dijkstra_route.get(i) + "/좌표: (" + roadNetwork.getNode(dijkstra_route.get(i)).getCoordinate() + ")");
+                if (i % 3 == 2) System.out.println();
+            }*/
+            sum+=endT-startT;
         }
-        System.out.println("소요 시간 : " + (endT - startT) + "n 초");
+        System.out.println("소요 시간 : " + (sum) + "n 초");
+        sum =0;
 
         /* A_start */
-        startT = System.nanoTime();//timer start
-        ArrayList<Integer> aStart_route = shortestPath.astar(roadNetwork,heads,start,end);
-        endT = System.nanoTime();//timer end
-        System.out.println();
-        System.out.println(" /* 에이스타 */ ");
-        for(int i=0;i<aStart_route.size();i++){
-            if(i!=aStart_route.size()-1) System.out.print("ID: "+aStart_route.get(i)+" / 좌표: ("+roadNetwork.getNode(aStart_route.get(i)).getCoordinate()+") -> ");
-            else System.out.println("ID: "+aStart_route.get(i)+"/좌표: ("+roadNetwork.getNode(aStart_route.get(i)).getCoordinate()+")");
-            if(i%3==2) System.out.println();
+        for(int n=0;n<100;n++) {
+            startT = System.nanoTime();//timer start
+            ArrayList<Integer> aStart_route = shortestPath.astar(roadNetwork, heads, start, end);
+            endT = System.nanoTime();//timer end
+            //System.out.println();
+            //System.out.println(" /* 에이스타 */ ");
+            /*for (int i = 0; i < aStart_route.size(); i++) {
+                if (i != aStart_route.size() - 1)
+                    System.out.print("ID: " + aStart_route.get(i) + " / 좌표: (" + roadNetwork.getNode(aStart_route.get(i)).getCoordinate() + ") -> ");
+                else
+                    System.out.println("ID: " + aStart_route.get(i) + "/좌표: (" + roadNetwork.getNode(aStart_route.get(i)).getCoordinate() + ")");
+                if (i % 3 == 2) System.out.println();
+            }*/
+            sum+=endT-startT;
         }
-        System.out.println("소요 시간 : " + (endT - startT) + "n 초");
+        System.out.println("소요 시간 : " + (sum) + "n 초");
+        sum =0;
 
         /* longest leg first! (llf) */
-        startT = System.nanoTime();//timer start
-        ArrayList<Integer> llf_route = shortestPath.longest_leg_first(roadNetwork,heads,start,end);
-        endT = System.nanoTime();//timer end
-        System.out.println();
-        System.out.println(" /* 처음 최대 길이 선택 다익스트라 */ ");
-        for(int i=0;i<llf_route.size();i++){
-            if(i!=llf_route.size()-1) System.out.print("ID: "+llf_route.get(i)+" / 좌표: ("+roadNetwork.getNode(llf_route.get(i)).getCoordinate()+") -> ");
-            else System.out.println("ID: "+llf_route.get(i)+"/좌표: ("+roadNetwork.getNode(llf_route.get(i)).getCoordinate()+")");
-            if(i%3==2) System.out.println();
+        for(int n=0;n<100;n++) {
+            startT = System.nanoTime();//timer start
+            ArrayList<Integer> llf_route = shortestPath.longest_leg_first(roadNetwork, heads, start, end);
+            endT = System.nanoTime();//timer end
+            //System.out.println();
+            //System.out.println(" /* 처음 최대 길이 선택 다익스트라 */ ");
+            /*for (int i = 0; i < llf_route.size(); i++) {
+                if (i != llf_route.size() - 1)
+                    System.out.print("ID: " + llf_route.get(i) + " / 좌표: (" + roadNetwork.getNode(llf_route.get(i)).getCoordinate() + ") -> ");
+                else
+                    System.out.println("ID: " + llf_route.get(i) + "/좌표: (" + roadNetwork.getNode(llf_route.get(i)).getCoordinate() + ")");
+                if (i % 3 == 2) System.out.println();
+            }*/
+            sum+=endT-startT;
         }
-        System.out.println("소요 시간 : " + (endT - startT) + "n 초");
+        System.out.println("소요 시간 : " + (sum) + "n 초");
 
         /* fewest turn */
 
