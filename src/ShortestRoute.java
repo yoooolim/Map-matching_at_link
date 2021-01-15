@@ -8,10 +8,11 @@ public class ShortestRoute {
         double length = 0;
         return length;
     }
-/*
+
     public static int min(double A, double B){
-        if(a)
-    }*/
+        if(A>B) return 1;
+        return 2;
+    }
 
     public ArrayList<Integer> dijkstra(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start,int end){
         ArrayList<Integer> route = new ArrayList<>();
