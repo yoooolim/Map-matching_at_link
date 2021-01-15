@@ -12,7 +12,7 @@ public class ShortestRoute {
     public static int min(double A, double B){
         if(A>B) return 1;
         return 2;
-    }
+    }//A가 크면 1, B가 크면 2를 반환하는 함수
 
     public ArrayList<Integer> dijkstra(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start,int end){
         ArrayList<Integer> route = new ArrayList<>();
