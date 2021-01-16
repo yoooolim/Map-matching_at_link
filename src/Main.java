@@ -111,8 +111,25 @@ public class Main {
             sum+=endT-startT;
         }
         System.out.println("소요 시간 : " + (sum) + "n 초");
+        sum=0;
 
         /* fewest turn */
+        for(int n=0;n<100;n++) {
+            startT = System.nanoTime();//timer start
+            ArrayList<Integer> ft_route = shortestPath.fewest_turn(roadNetwork, heads, start, end);
+            endT = System.nanoTime();//timer end
+            //System.out.println();
+            //System.out.println(" /* 최소 회전 A스타 */ ");
+            /*for (int i = 0; i < ft_route.size(); i++) {
+                if (i != rt_route.size() - 1)
+                    System.out.print("ID: " + ft_route.get(i) + " / 좌표: (" + roadNetwork.getNode(ft_route.get(i)).getCoordinate() + ") -> ");
+                else
+                    System.out.println("ID: " + ft_route.get(i) + "/좌표: (" + roadNetwork.getNode(ft_route.get(i)).getCoordinate() + ")");
+                if (i % 3 == 2) System.out.println();
+            }*/
+            sum+=endT-startT;
+        }
+        System.out.println("소요 시간 : " + (sum) + "n 초");
 
         // GPS points와 routePoints를 저장할 ArrayList생성
         ArrayList<GPSPoint> gpsPointArrayList = new ArrayList<>();

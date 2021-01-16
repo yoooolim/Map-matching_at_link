@@ -88,7 +88,6 @@ public class ShortestRoute {
         }
         return route;
     }
-    //dijkstra의 문제 : 12 -> 25 -> 26의 경우에 path[25]가 12가 아닌 -1의 값을 가짐 why..
 
     public ArrayList<Integer> astar(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start, int end){
         ArrayList<Integer> route = new ArrayList<>();
@@ -152,8 +151,60 @@ public class ShortestRoute {
 
     public ArrayList<Integer> fewest_turn(RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads,int start, int end){
         ArrayList<Integer> route = new ArrayList<>();
+
+        int now = start;
+        double routeLength = 0.0;
+        AdjacentNode prev = null;
+
+        while(now!=end){
+            route.add(now);
+            AdjacentNode head = heads.get(now);
+            head = head.getNextNode();
+            double min = 99999999;
+            int nextID = 0;
+            double addLength = 0.0;
+            while(head!=null){
+                double G = routeLength + Main.coordDistanceofPoints(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
+                double H = Main.coordDistanceofPoints(roadNetwork.getNode(end).getCoordinate(), head.getNode().getCoordinate());
+                if(prev!=null) {
+                    Vector2D prevVec = new Vector2D();
+                    Vector2D nowVec = new Vector2D();
+                    double angle = prevVec.getAngle(nowVec);
+                    H+=360/angle;
+                }
+                double F = G + H;
+                if(min > F) {
+                    min = F;
+                    nextID=head.getNode().getNodeID();
+                    addLength = Main.coordDistanceofPoints(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
+                }
+                head=head.getNextNode();
+            }
+            routeLength+=addLength;
+            prev=heads.get(now);
+            now = nextID;
+        }
+        route.add(end);
+        /*
         AdjacentNode head = heads.get(start);
         AdjacentNode prev = heads.get(start);
+        //첫 경로 선택 -> A*
+        double max = 0.0;
+        int nextNodeID = 0;
+        while((head=head.getNextNode())!=null){
+            double calNum = head.getLink().getWeight()
+                    +Main.coordDistanceofPoints(head.getNode().getCoordinate(),heads.get(start).getNode().getCoordinate());
+            if(calNum<=max)
+                continue;
+            max = calNum;
+            nextNodeID = head.getNode().getNodeID();
+        }
+        head = heads.get(nextNodeID);
+        prev = heads.get(start);
+        Vector2D prevVec = new Vector2D
+                (heads.get(start).getNode().getCoordinate().getX()-heads.get(nextNodeID).getNode().getCoordinate().getX(),
+                heads.get(start).getNode().getCoordinate().getY()-heads.get(nextNodeID).getNode().getCoordinate().getY());
+
         while(head.getNode().getNodeID()!=end){
             ArrayList<AdjacentNode> temp = new ArrayList<>();
             head=head.getNextNode();
@@ -170,6 +221,7 @@ public class ShortestRoute {
                 head=head.getNextNode();
             }
         }
+         */
         return route;
     }
 }
