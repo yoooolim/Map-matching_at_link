@@ -7,6 +7,7 @@ import javax.swing.SwingWorker;*/
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -154,36 +155,36 @@ public class Main {
         ///////////// FSW VITERBI /////////////
         // window size 입력받기
         System.out.print("Fixed Sliding Window Viterbi. Window size: \n");
-        Scanner scanner = new Scanner(System.in);
-        int wSize = scanner.nextInt(); // window size;
+        //Scanner scanner = new Scanner(System.in);
+        int wSize = 3; // window size;
 
         ArrayList<Candidate[]> subpaths = new ArrayList<>();
         // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
         // t는 timestamp를 의미
-        for (int t = wSize-1; t < arrOfCandidates.size(); t++) {
+        for (int t = wSize-1; t < arrOfCandidates.size(); t+=wSize-1) {
             Candidate matching;
             double maximum_prob = 0;
-            Candidate subpath[] = new Candidate [wSize-1]; // path의 길이를 t로 설정
+            Candidate[] subpath = new Candidate[wSize-1]; // path의 길이를 t로 설정
 
             // 현재 candidates와 다음 candidates로 가는 t.p와 e.p곱 중 최대 값을 가지는 curr와 그 index를 maximum_tpep[현재]에 저장
             for (int i = t - wSize + 1; i < t; i++) { // i moves in window
                 ArrayList<Candidate> curr_candidates = arrOfCandidates.get(i);
                 ArrayList<Candidate> next_candidates = arrOfCandidates.get(i+1);
-                //System.out.println("☆origin point:" + routePointArrayList.get(i));
-                //System.out.println("☆GPS point: " + gpsPointArrayList.get(i));
+                System.out.println("☆origin point:" + routePointArrayList.get(i));
+                System.out.println("☆GPS point: " + gpsPointArrayList.get(i));
                 // 다음 candidate를 하나씩 순회
                 for (Candidate nc : next_candidates) {
                     maximum_prob = 0;
 
-                    //System.out.println("  nc: "+nc.getPoint()+"/ ep: "+nc.getEp());
+                    System.out.println("  nc: "+nc.getPoint()+"/ ep: "+nc.getEp());
                     // 현재 candidate를 하나씩 순회하며
                     for (Candidate cc : curr_candidates) {
-                        //calculationTP(nc, matched, gpsPointArrayList.get(t).getPoint(), gpsPointArrayList, t, roadNetwork);
-                        double prob = transition.Transition_pro(gpsPointArrayList.get(t-1).getPoint(), gpsPointArrayList.get(t).getPoint(), cc, nc, roadNetwork)
-                                * nc.getEp(); /*cc->nc로의 tp구해야하고 */
+                        double tp = transition.Transition_pro(gpsPointArrayList.get(t-2).getPoint(), gpsPointArrayList.get(t).getPoint(), cc, nc, roadNetwork);
+                        double prob = tp * nc.getEp(); /*cc->nc로의 tp구해야하고 */
 
-                        //System.out.println("    cc: "+cc.getPoint()+"/ ep: "+cc.getEp()+"/ prob: "+prob);
-                        if (i == 0) { // window내 window의 시작 부분
+                        System.out.println("    cc: "+cc.getPoint()+"/ ep: "+cc.getEp()+ "/ tp: " + tp + "/ prob: "+nc.getEp()*tp);
+
+                        if (i == t - wSize + 1) { // window내 window의 시작 부분
                             if(maximum_prob < prob * cc.getEp()) { // 최대의 acc_prob를 갱신하며 이전전
                                 maximum_prob = prob * cc.getEp();// window의 시작부분이므로 현재의 ep * 다음의 ep * 현재->다음의tp를 Acc_prob에 축적한다
                                 nc.setPrev_index(curr_candidates.indexOf(cc));
@@ -201,10 +202,14 @@ public class Main {
                         }
                     }
                 }
+                if (t > arrOfCandidates.size() - wSize + 1) {
+                    //wSize = arrOfCandidates.size() - t + 1;
+                    break;
+                }
             }
 
             // 마지막 candidates 중 acc_prob가 가장 높은 것 max_last_candi에 저장
-            Candidate max_last_candi = new Candidate(); /*어쩐지 뭔가 찝찝해.. 생성자*/
+            Candidate max_last_candi = new Candidate();
             double max_prob = 0;
             for(Candidate candidate : arrOfCandidates.get(t)) {
                 if (max_prob < candidate.getAcc_prob()) {
@@ -222,16 +227,17 @@ public class Main {
             }
 
             // 생성된 subpath를 subpaths에 추가가
-           subpaths.add(subpath);
-
-            //subpath의 끝 점 매칭
-            matching = subpath[subpath.length-1];
-            matched.add(matching);
-
+            subpaths.add(subpath);
+            ArrayList<Candidate> subpathArrayList = new ArrayList<Candidate>(Arrays.asList(subpath));
+            // subpath를 모두 매칭!!
+            matched.addAll(subpathArrayList);
+            if (t > arrOfCandidates.size() - wSize + 1) {
+                break;
+            }
         }
 
-        /*// subpath 출력
-       int t = wSize-2;
+        // subpath 출력
+        int t = wSize-2;
         for (Candidate[] subpath : subpaths) {
             System.out.print(t + "] ");
             for (int  i=0;i<subpath.length;i++) {
@@ -240,15 +246,15 @@ public class Main {
                     System.out.print(" ㅡ ");
             }
             System.out.println(); t++;
-        }*/
+        }
 
         // origin->생성 gps->matched 출력*
         double success_sum= 0;
         System.out.println("[Origin]\t->\t[GPS]\t->\t[Matched]");
         System.out.println("HERE!!:" + matched.size());
         for(int i = 0; i< matched.size() ; i++){
-            System.out.println(i +" [" + routePointArrayList.get(i+wSize-2) + "] -> ["
-                    + gpsPointArrayList.get(i+wSize-2).getPoint() + "] -> ["
+            System.out.println(i +" [" + routePointArrayList.get(i) + "] -> ["
+                    + gpsPointArrayList.get(i).getPoint() + "] -> ["
                     + matched.get(i).getPoint() + ", id: "
                     + matched.get(i).getInvolvedLink().getLinkID()+ "]");
 
