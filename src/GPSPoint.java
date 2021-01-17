@@ -10,9 +10,9 @@ public class GPSPoint {
         Random random = new Random();
         while(true) {
             //10m 안쪽의 오차가 약 95% 가량 나도록 표준편차 4로 설정
-            gps_x = 4 * random.nextGaussian() + orgCoordinate.getX();
+            gps_x = 2 * random.nextGaussian() + orgCoordinate.getX();
             //if(gps_x<0) gps_x=orgCoordinate.getX();
-            gps_y = 4 * random.nextGaussian() + orgCoordinate.getY();
+            gps_y = 2 * random.nextGaussian() + orgCoordinate.getY();
             //if(gps_y<0) gps_y=orgCoordinate.getY();
             if (gps_x<0 && gps_y<0 || gps_x>100 && gps_y>100)
                 continue;

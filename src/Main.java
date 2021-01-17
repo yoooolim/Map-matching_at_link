@@ -156,7 +156,7 @@ public class Main {
         // window size 입력받기
         System.out.print("Fixed Sliding Window Viterbi. Window size: \n");
         //Scanner scanner = new Scanner(System.in);
-        int wSize = 3; // window size;
+        int wSize = 9; // window size;
 
         ArrayList<Candidate[]> subpaths = new ArrayList<>();
         // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
