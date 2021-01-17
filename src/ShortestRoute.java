@@ -174,7 +174,7 @@ public class ShortestRoute {
                             (head.getNode().getCoordinate().getX()-heads.get(now).getNode().getCoordinate().getX(),
                                     head.getNode().getCoordinate().getY()-heads.get(now).getNode().getCoordinate().getY() );
                     double angle = prevVec.getAngle(nowVec);
-                    H+=360/angle;
+                    H+=3600/angle;
                 }
                 double F = G + H;
                 if(min > F) {

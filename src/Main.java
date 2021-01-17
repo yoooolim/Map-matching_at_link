@@ -72,7 +72,7 @@ public class Main {
             }*/
             sum+=endT-startT;
         }
-        System.out.println("소요 시간 : " + (sum) + "n 초");
+        System.out.println("dijkstra 소요 시간 : " + (sum) + " n초");
         sum =0;
 
         /* A_start */
@@ -91,7 +91,7 @@ public class Main {
             }*/
             sum+=endT-startT;
         }
-        System.out.println("소요 시간 : " + (sum) + "n 초");
+        System.out.println("A* 소요 시간 : " + (sum) + " n초");
         sum =0;
 
         /* longest leg first! (llf) */
@@ -110,7 +110,7 @@ public class Main {
             }*/
             sum+=endT-startT;
         }
-        System.out.println("소요 시간 : " + (sum) + "n 초");
+        System.out.println("Longest Leg First 소요 시간 : " + (sum) + " n초");
         sum=0;
 
         /* fewest turn */
@@ -129,7 +129,7 @@ public class Main {
             }
             sum+=endT-startT;
         }
-        System.out.println("소요 시간 : " + (sum) + "n 초");
+        System.out.println("Fewest Turn 소요 시간 : " + (sum) + " n초");
 
         // GPS points와 routePoints를 저장할 ArrayList생성
         ArrayList<GPSPoint> gpsPointArrayList = new ArrayList<>();
