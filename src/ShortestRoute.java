@@ -167,8 +167,12 @@ public class ShortestRoute {
                 double G = routeLength + Main.coordDistanceofPoints(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
                 double H = Main.coordDistanceofPoints(roadNetwork.getNode(end).getCoordinate(), head.getNode().getCoordinate());
                 if(prev!=null) {
-                    Vector2D prevVec = new Vector2D();
-                    Vector2D nowVec = new Vector2D();
+                    Vector2D prevVec = new Vector2D
+                            (prev.getNode().getCoordinate().getX()-heads.get(now).getNode().getCoordinate().getX(),
+                                    prev.getNode().getCoordinate().getY()-heads.get(now).getNode().getCoordinate().getY());
+                    Vector2D nowVec = new Vector2D
+                            (head.getNode().getCoordinate().getX()-heads.get(now).getNode().getCoordinate().getX(),
+                                    head.getNode().getCoordinate().getY()-heads.get(now).getNode().getCoordinate().getY() );
                     double angle = prevVec.getAngle(nowVec);
                     H+=360/angle;
                 }

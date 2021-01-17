@@ -51,7 +51,7 @@ public class Main {
         /* 여기부터 dijkstra~ ShortestRoute -> dijkstra */
         ShortestRoute shortestPath = new ShortestRoute();
         //시작, 끝 노드 ID!
-        int start = 12;
+        int start = 0;
         int end = 34;
         long startT=0, endT=0; //시간 계산 위해서 -> nano time으로 왜 dijk이 더 오래 걸리는지 파악할 것
         long sum =0;
@@ -114,19 +114,19 @@ public class Main {
         sum=0;
 
         /* fewest turn */
-        for(int n=0;n<100;n++) {
+        for(int n=0;n<1;n++) {
             startT = System.nanoTime();//timer start
             ArrayList<Integer> ft_route = shortestPath.fewest_turn(roadNetwork, heads, start, end);
             endT = System.nanoTime();//timer end
-            //System.out.println();
-            //System.out.println(" /* 최소 회전 A스타 */ ");
-            /*for (int i = 0; i < ft_route.size(); i++) {
-                if (i != rt_route.size() - 1)
+            System.out.println();
+            System.out.println(" /* 최소 회전 A스타 */ ");
+            for (int i = 0; i < ft_route.size(); i++) {
+                if (i != ft_route.size() - 1)
                     System.out.print("ID: " + ft_route.get(i) + " / 좌표: (" + roadNetwork.getNode(ft_route.get(i)).getCoordinate() + ") -> ");
                 else
                     System.out.println("ID: " + ft_route.get(i) + "/좌표: (" + roadNetwork.getNode(ft_route.get(i)).getCoordinate() + ")");
                 if (i % 3 == 2) System.out.println();
-            }*/
+            }
             sum+=endT-startT;
         }
         System.out.println("소요 시간 : " + (sum) + "n 초");
