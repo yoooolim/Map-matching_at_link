@@ -115,6 +115,27 @@ public class Link {
             }
         } return false;
     }
+
+    //두 링크가 연결되어있을때 연결되어있는 노드
+    public Point isLinkNextToPoint(RoadNetwork rn, Link _linkID){
+        Point linked_point = new Point(0.0, 0.0);
+
+        if (this.getStartNodeID() == _linkID.getStartNodeID()) {
+            linked_point = rn.getNode(this.getStartNodeID()).getCoordinate(); //point 반환
+        }
+        else if(this.getStartNodeID() == _linkID.getEndNodeID()){
+            linked_point = rn.getNode(this.getStartNodeID()).getCoordinate(); //point 반환
+        }
+        else if(this.getEndNodeID() == _linkID.getStartNodeID()){
+            linked_point = rn.getNode(this.getEndNodeID()).getCoordinate(); //point 반환
+        }
+        else if(this.getEndNodeID() == _linkID.getEndNodeID()){
+            linked_point = rn.getNode(this.getEndNodeID()).getCoordinate(); //point 반환
+        }
+
+        return linked_point;
+    }
+
     // 11/20에 만듦: 이 링크와 이웃한 링크 개수 출력
     public int nextLinksNum(RoadNetwork rn) {
         int n = 0;

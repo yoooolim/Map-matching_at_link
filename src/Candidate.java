@@ -4,6 +4,27 @@ public class Candidate {
     private double tp;
     private double ep;
     private double tpep;
+    private double ep_median;
+    private double tp_median;
+    private double acc_prob;// accumulated probability (이전 최대 edge와 해당 node의 ep*tp를 곱함)
+
+    public int getPrev_index() {
+        return prev_index;
+    }
+
+    public void setPrev_index(int prev_index) {
+        this.prev_index = prev_index;
+    }
+
+    private int prev_index;
+
+    public double getAcc_prob() {
+        return acc_prob;
+    }
+
+    public void setAcc_prob(double acc_prob) {
+        this.acc_prob = acc_prob;
+    }
 
     public Candidate(){
         this.point = null;
@@ -11,6 +32,8 @@ public class Candidate {
         this.tp= 0.0;
         this.ep=0.0;
         this.tpep=0.0;
+        this.ep_median=0.0;
+        this.tp_median=0.0;
     }
 
     public Candidate (Point point, Link involvedLink){
@@ -19,6 +42,8 @@ public class Candidate {
         this.tp= 0.0;
         this.ep=0.0;
         this.tpep=0.0;
+        this.ep_median=0.0;
+        this.tp_median=0.0;
     }
 
     public void setPoint(Point point){this.point=point;}
@@ -55,6 +80,18 @@ public class Candidate {
     }
 
     public double getTpep(){return tpep;}
+
+    public void setEp_median(double ep_median) {this.ep_median = ep_median;}
+
+    public void setTp_median(double tp_median){this.tp_median = tp_median;}
+
+    public double getEp_median() {
+        return ep_median;
+    }
+
+    public double getTp_median() {
+        return tp_median;
+    }
 
     @Override
     public String toString() {
