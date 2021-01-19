@@ -49,6 +49,7 @@ public class Main {
         }
 
         /* 여기부터 dijkstra~ ShortestRoute -> dijkstra */
+        //before get map matching algorithm
         ShortestRoute shortestPath = new ShortestRoute();
         //시작, 끝 노드 ID!
         int start = 0;
