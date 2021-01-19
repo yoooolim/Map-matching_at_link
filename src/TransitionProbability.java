@@ -25,8 +25,6 @@ public class TransitionProbability {
         int startNode=mainLink.getStartNodeID();
         int endNode = mainLink.getEndNodeID();
         ArrayList<Link> secondLink = new ArrayList<>();
-        //ArrayList<Node> startAdjacentNode = new ArrayList<>();
-        //ArrayList<Node> endAdjacentNode = new ArrayList<>();
         AdjacentNode pointer = heads.get(roadNetwork.nodeArrayList.get(startNode).getNodeID()).getNextNode();
         while(true){
             if(pointer==null) break;

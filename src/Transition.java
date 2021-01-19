@@ -90,48 +90,5 @@ public class Transition {
                 }
             }//위치 찾고 삽입하는 과정, 오름차순으로 나열
         }
-        /*
-        for(int i=0; i<transition_median.size(); i++){
-            System.out.println("제발tp" + transition_median.get(i));
-        }
-         */
     }
-/*
-    public static void Transition_Median(GPSPoint gps_pre, GPSPoint gps, Point matching_pre, Point matching){
-
-        double tp_gps_distance, tp_route_distance;
-        double dt=0;
-
-        Point gpspoint_pre = new Point(0.0, 0.0);
-        gpspoint_pre.setX(gps_pre.getX());
-        gpspoint_pre.setY(gps_pre.getY());
-
-        Point gpspoint = new Point(0.0, 0.0);
-        gpspoint.setX(gps.getX());
-        gpspoint.setY(gps.getY());
-        tp_gps_distance = coordDistanceofPoints(gpspoint_pre, gpspoint); //이전gps_point 와 gps_point의 유클리드 직선거리
-
-        tp_route_distance = coordDistanceofPoints(matching_pre, matching); //이전 실제 point와 실제 point의 유클리드 직선거리
-        //실제 tp는 직선거리가 아니고 경로상의 거리여야함!!
-
-        dt = Math.abs(tp_gps_distance-tp_route_distance); //gps와 경로 거리 차이 절대값
-
-        if(transition_median.size() == 0)
-            transition_median.add(dt);
-
-        else {
-            for (int i = 0; i < transition_median.size(); i++) {
-                if (transition_median.get(i) > dt) {
-                    transition_median.add(i, dt);
-                    break;
-                }
-                if(i == transition_median.size()-1){
-                    transition_median.add(dt);
-                    break;
-                }
-            }//위치 찾고 삽입
-        }
-    }//중앙값 저장
- */
-
 }

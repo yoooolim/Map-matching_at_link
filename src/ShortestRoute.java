@@ -189,43 +189,6 @@ public class ShortestRoute {
             now = nextID;
         }
         route.add(end);
-        /*
-        AdjacentNode head = heads.get(start);
-        AdjacentNode prev = heads.get(start);
-        //첫 경로 선택 -> A*
-        double max = 0.0;
-        int nextNodeID = 0;
-        while((head=head.getNextNode())!=null){
-            double calNum = head.getLink().getWeight()
-                    +Main.coordDistanceofPoints(head.getNode().getCoordinate(),heads.get(start).getNode().getCoordinate());
-            if(calNum<=max)
-                continue;
-            max = calNum;
-            nextNodeID = head.getNode().getNodeID();
-        }
-        head = heads.get(nextNodeID);
-        prev = heads.get(start);
-        Vector2D prevVec = new Vector2D
-                (heads.get(start).getNode().getCoordinate().getX()-heads.get(nextNodeID).getNode().getCoordinate().getX(),
-                heads.get(start).getNode().getCoordinate().getY()-heads.get(nextNodeID).getNode().getCoordinate().getY());
-
-        while(head.getNode().getNodeID()!=end){
-            ArrayList<AdjacentNode> temp = new ArrayList<>();
-            head=head.getNextNode();
-            double inclinationOrigin = (prev.getNode().getCoordinate().getY()-head.getNode().getCoordinate().getY())/
-                    (prev.getNode().getCoordinate().getX()-head.getNode().getCoordinate().getX());
-            while(true){
-                double inclinationNow = (prev.getNode().getCoordinate().getY()-head.getNode().getCoordinate().getY())/
-                        (prev.getNode().getCoordinate().getX()-head.getNode().getCoordinate().getX());
-                if(inclinationOrigin==inclinationNow) head = heads.get(head.getNode().getNodeID());
-                if(head.getNextNode()==null){
-                    temp.add(head);
-                    break;
-                }
-                head=head.getNextNode();
-            }
-        }
-         */
         return route;
     }
 }

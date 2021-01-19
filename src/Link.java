@@ -6,8 +6,6 @@ public class Link {
     private int endNodeID; // Link의 End Node
     private Double weight; // Link의 weight (길이)
     private int width;
-    // Link가 포함하고 있는 node List
-    //private ArrayList<Point> involvingPointList = new ArrayList<>();
 
     //////생성자, getter, setter, toString//////
     // int로 ID 파라미터 받음
