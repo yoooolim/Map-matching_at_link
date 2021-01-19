@@ -6,6 +6,7 @@ import org.knowm.xchart.XYChart;
 import javax.swing.SwingWorker;*/
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,79 +59,21 @@ public class Main {
         long sum =0;
 
         /* dijkstra */
-        for(int n=0;n<100;n++) {
-            startT = System.nanoTime();//timer start
-            ArrayList<Integer> dijkstra_route = shortestPath.dijkstra(roadNetwork, heads, start, end);
-            endT = System.nanoTime();//timer end
-            //System.out.println();
-            //System.out.println(" /* 다익스트라 */ ");
-            /*for (int i = 0; i < dijkstra_route.size(); i++) {
-                if (i != dijkstra_route.size() - 1)
-                    System.out.print("ID: " + dijkstra_route.get(i) + " / 좌표: (" + roadNetwork.getNode(dijkstra_route.get(i)).getCoordinate() + ") -> ");
-                else
-                    System.out.println("ID: " + dijkstra_route.get(i) + "/좌표: (" + roadNetwork.getNode(dijkstra_route.get(i)).getCoordinate() + ")");
-                if (i % 3 == 2) System.out.println();
-            }*/
-            sum+=endT-startT;
-        }
-        System.out.println("dijkstra 소요 시간 : " + (sum) + " n초");
-        sum =0;
+        ArrayList<Integer> dijkstra_route = shortestPath.dijkstra(roadNetwork, heads, start, end);
 
         /* A_start */
-        for(int n=0;n<100;n++) {
-            startT = System.nanoTime();//timer start
-            ArrayList<Integer> aStart_route = shortestPath.astar(roadNetwork, heads, start, end);
-            endT = System.nanoTime();//timer end
-            //System.out.println();
-            //System.out.println(" /* 에이스타 */ ");
-            /*for (int i = 0; i < aStart_route.size(); i++) {
-                if (i != aStart_route.size() - 1)
-                    System.out.print("ID: " + aStart_route.get(i) + " / 좌표: (" + roadNetwork.getNode(aStart_route.get(i)).getCoordinate() + ") -> ");
-                else
-                    System.out.println("ID: " + aStart_route.get(i) + "/좌표: (" + roadNetwork.getNode(aStart_route.get(i)).getCoordinate() + ")");
-                if (i % 3 == 2) System.out.println();
-            }*/
-            sum+=endT-startT;
-        }
-        System.out.println("A* 소요 시간 : " + (sum) + " n초");
-        sum =0;
+        ArrayList<Integer> aStart_route = shortestPath.astar(roadNetwork, heads, start, end);
 
         /* longest leg first! (llf) */
-        for(int n=0;n<100;n++) {
-            startT = System.nanoTime();//timer start
-            ArrayList<Integer> llf_route = shortestPath.longest_leg_first(roadNetwork, heads, start, end);
-            endT = System.nanoTime();//timer end
-            //System.out.println();
-            //System.out.println(" /* 처음 최대 길이 선택 다익스트라 */ ");
-            /*for (int i = 0; i < llf_route.size(); i++) {
-                if (i != llf_route.size() - 1)
-                    System.out.print("ID: " + llf_route.get(i) + " / 좌표: (" + roadNetwork.getNode(llf_route.get(i)).getCoordinate() + ") -> ");
-                else
-                    System.out.println("ID: " + llf_route.get(i) + "/좌표: (" + roadNetwork.getNode(llf_route.get(i)).getCoordinate() + ")");
-                if (i % 3 == 2) System.out.println();
-            }*/
-            sum+=endT-startT;
-        }
-        System.out.println("Longest Leg First 소요 시간 : " + (sum) + " n초");
-        sum=0;
+        ArrayList<Integer> llf_route = shortestPath.longest_leg_first(roadNetwork, heads, start, end);
 
         /* fewest turn */
-        for(int n=0;n<1;n++) {
-            startT = System.nanoTime();//timer start
-            ArrayList<Integer> ft_route = shortestPath.fewest_turn(roadNetwork, heads, start, end);
-            endT = System.nanoTime();//timer end
-            System.out.println();
-            System.out.println(" /* 최소 회전 A스타 */ ");
-            for (int i = 0; i < ft_route.size(); i++) {
-                if (i != ft_route.size() - 1)
-                    System.out.print("ID: " + ft_route.get(i) + " / 좌표: (" + roadNetwork.getNode(ft_route.get(i)).getCoordinate() + ") -> ");
-                else
-                    System.out.println("ID: " + ft_route.get(i) + "/좌표: (" + roadNetwork.getNode(ft_route.get(i)).getCoordinate() + ")");
-                if (i % 3 == 2) System.out.println();
-            }
-            sum+=endT-startT;
+        ArrayList<Integer> ft_route = shortestPath.fewest_turn(roadNetwork, heads, start, end);
+
+        ArrayList<Integer> result_route = dijkstra_route;
+        for(int i=0;i<result_route.size();i++){
+            System.out.println(result_route.get(i)+" ");
         }
-        System.out.println("Fewest Turn 소요 시간 : " + (sum) + " n초");
 
         // GPS points와 routePoints를 저장할 ArrayList생성
         ArrayList<GPSPoint> gpsPointArrayList = new ArrayList<>();
@@ -138,17 +81,7 @@ public class Main {
         ArrayList<Candidate> matchingPointArrayList = new ArrayList<>();
 
         // test 번호에 맞는 routePoints생성
-        routePointArrayList = roadNetwork.routePoints(testNo);
-
-        /*
-        for(int i=0; i<gpsPointArrayList.size(); i++){
-            emission.Emission_Median(gpsPointArrayList.get(i), routePointArrayList.get(i));
-            if(i>0){
-                transition.Transition_Median(gpsPointArrayList.get(i-1), gpsPointArrayList.get(i),routePointArrayList.get(i-1), routePointArrayList.get(i));
-            }//매칭된 point로 해야하나.. 실제 point로 해야하나.. 의문?
-            //중앙값 저장
-        }
-        */
+        routePointArrayList = roadNetwork.routePoints(testNo,result_route);
 
         // GPSPoints 생성 -> 이전 test1-1에서 generateGPSPoints메서드 삭제함
         int timestamp = 0;
@@ -172,7 +105,6 @@ public class Main {
             System.out.println();
         }
 
-        //pleaseㅠㅠㅠㅠ
         // origin route points와 랜덤하게 생성된 GPS points 출력하기
         //유림이가 썼던 코드
         /*Point gpsPoint = new Point(0.0,0.0);

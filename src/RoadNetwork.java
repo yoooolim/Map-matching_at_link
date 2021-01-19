@@ -74,27 +74,24 @@ public class RoadNetwork {
      *되는 루트 →, ↑, ↗,↘
      *안되는 루트: ←, ↓, ↙, ↖
      * */
-    public ArrayList<Point> routePoints (int testNo) {
+    public ArrayList<Point> routePoints (int testNo,ArrayList<Integer> routeNodes) {
         ArrayList<Point> routePoints = new ArrayList<>();
         if (testNo == 1) { // 세정이 데이터
-            int[] routeNodes = {0, 1, 9, 10, 11, 19, 28, 36, 44, 45, 46, 47, 55};
-            for (int i=0; i<routeNodes.length-1; i++) {
-                Link routelink = getLink(routeNodes[i], routeNodes[i+1]);
+            for (int i=0; i<routeNodes.size()-1; i++) {
+                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
                 routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
                         getNode(routelink.getEndNodeID()).getCoordinate()));
             }
         } else if (testNo == 2) { // 유네 데이터
             // node0 에서 node 55로 가는 경로
-            int[] routeNodes = {0,1, 6, 12, 25, 26, 27, 33, 34};
-            for (int i=0; i<routeNodes.length-1; i++) {
-                Link routelink = getLink(routeNodes[i], routeNodes[i+1]);
+            for (int i=0; i<routeNodes.size()-1; i++) {
+                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
                 routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
                         getNode(routelink.getEndNodeID()).getCoordinate()));
             }
         } else if (testNo == 3) { // 유림이 데이터
-            int[] routeNodes= {0,20,};
-            for (int i=0; i<routeNodes.length-1; i++) {
-                Link routelink = getLink(routeNodes[i], routeNodes[i+1]);
+            for (int i=0; i<routeNodes.size()-1; i++) {
+                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
                 routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
                         getNode(routelink.getEndNodeID()).getCoordinate()));
             }
